@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FILS — Contact</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --black: #0a0a0a; --white: #f5f2ec; --cream: #f0ead8; --accent: #c8a96e; --accent-dim: #8a6f3f; --mid: #888; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: 'Manrope', sans-serif; font-weight: 300; cursor: none; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
+  .cursor { width: 12px; height: 12px; background: var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+  .cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(200,169,110,0.5); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transition: transform 0.08s ease, width 0.3s, height 0.3s, border-color 0.3s; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 3rem; mix-blend-mode: difference; }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.15em; color: var(--white); text-decoration: none; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--white); text-decoration: none; opacity: 0.6; transition: opacity 0.2s; }
+  .nav-links a:hover, .nav-links a.active { opacity: 1; }
+  footer { border-top: 1px solid rgba(255,255,255,0.08); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.2); }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.2); }
+
+  /* Main layout */
+  main {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 80px);
+    margin-top: 80px;
+  }
+
+  /* Left panel */
+  .contact-left {
+    padding: 6rem 4rem 6rem 3rem;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .contact-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+  .contact-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 8vw, 8rem);
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    margin-bottom: 1.5rem;
+  }
+  .contact-sub {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: rgba(245,242,236,0.5);
+    line-height: 1.6;
+    max-width: 380px;
+    margin-bottom: 4rem;
+  }
+  .availability {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+  }
+  .availability-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #4ade80;
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  .direct-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .direct-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    text-decoration: none;
+    color: inherit;
+    transition: padding-left 0.2s;
+    group: true;
+  }
+  .direct-link:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .direct-link:hover { padding-left: 0.5rem; }
+  .direct-link-left {}
+  .direct-link-type {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.25rem;
+  }
+  .direct-link-value {
+    font-size: 0.9rem;
+    color: var(--white);
+  }
+  .direct-link-arrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--accent);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .direct-link:hover .direct-link-arrow { opacity: 1; }
+
+  /* Right panel — form */
+  .contact-right {
+    padding: 6rem 3rem 6rem 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .form-label-top {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 2.5rem;
+  }
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  .form-field-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    display: block;
+    margin-bottom: 0.6rem;
+  }
+  .form-input, .form-textarea, .form-select {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    color: var(--white);
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    padding: 0.6rem 0;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+  .form-select {
+    background: transparent;
+    cursor: pointer;
+    color: rgba(245,242,236,0.5);
+  }
+  .form-select option { background: #1a1a1a; color: var(--white); }
+  .form-input:focus, .form-textarea:focus, .form-select:focus {
+    border-bottom-color: var(--accent);
+  }
+  .form-input::placeholder, .form-textarea::placeholder {
+    color: rgba(245,242,236,0.2);
+    font-weight: 300;
+  }
+  .form-textarea {
+    resize: none;
+    height: 100px;
+    line-height: 1.7;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .form-submit {
+    margin-top: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .submit-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--accent);
+    border: none;
+    padding: 1rem 2.5rem;
+    cursor: none;
+    transition: background 0.2s;
+  }
+  .submit-btn:hover { background: var(--cream); }
+  .submit-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: rgba(245,242,236,0.25);
+    line-height: 1.6;
+  }
+  .success-msg {
+    display: none;
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--accent);
+    padding: 1rem 0;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    main { grid-template-columns: 1fr; min-height: auto; }
+    .contact-left { padding: 5rem 1.5rem 3rem; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .contact-right { padding: 3rem 1.5rem 4rem; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+    footer { flex-direction: column; gap: 1rem; padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">FILS</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="reach.html">Reach</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+  <!-- Left: info -->
+  <div class="contact-left">
+    <div>
+      <p class="contact-eyebrow">Get In Touch</p>
+      <h1 class="contact-headline">Let's<br>Work<br>Together</h1>
+      <p class="contact-sub">Available for brand partnerships, UGC campaigns, content strategy, and full-time roles. Based in Brooklyn — open to remote.</p>
+      <div class="availability">
+        <span class="availability-dot"></span>
+        Available for new projects
+      </div>
+    </div>
+
+    <div class="direct-links">
+      <a href="mailto:filsinc.co@gmail.com" class="direct-link">
+        <div class="direct-link-left">
+          <p class="direct-link-type">Email</p>
+          <p class="direct-link-value">filsinc.co@gmail.com</p>
+        </div>
+        <span class="direct-link-arrow">→</span>
+      </a>
+      <a href="https://instagram.com/filsdfrank" class="direct-link" target="_blank">
+        <div class="direct-link-left">
+          <p class="direct-link-type">Instagram</p>
+          <p class="direct-link-value">@filsdfrank</p>
+        </div>
+        <span class="direct-link-arrow">→</span>
+      </a>
+      <a href="https://tiktok.com/@filsdfrank" class="direct-link" target="_blank">
+        <div class="direct-link-left">
+          <p class="direct-link-type">TikTok</p>
+          <p class="direct-link-value">@filsdfrank</p>
+        </div>
+        <span class="direct-link-arrow">→</span>
+      </a>
+      <a href="https://youtube.com/@filsdfrank" class="direct-link" target="_blank">
+        <div class="direct-link-left">
+          <p class="direct-link-type">YouTube</p>
+          <p class="direct-link-value">FILS 2.0</p>
+        </div>
+        <span class="direct-link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Right: form -->
+  <div class="contact-right">
+    <p class="form-label-top">Send a Message</p>
+    <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-field-label" for="name">Your Name</label>
+          <input class="form-input" type="text" id="name" name="name" placeholder="Jane Smith" required>
+        </div>
+        <div class="form-group">
+          <label class="form-field-label" for="email">Email Address</label>
+          <input class="form-input" type="email" id="email" name="email" placeholder="jane@brand.com" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-field-label" for="type">Type of Inquiry</label>
+        <select class="form-select" id="type" name="type">
+          <option value="">Select one...</option>
+          <option value="brand-deal">Brand Deal / Sponsorship</option>
+          <option value="ugc">UGC Campaign</option>
+          <option value="full-time">Full-Time Role</option>
+          <option value="collab">Creative Collaboration</option>
+          <option value="media-kit">Request Media Kit</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-field-label" for="company">Company / Brand (optional)</label>
+        <input class="form-input" type="text" id="company" name="company" placeholder="MoonBrew Inc.">
+      </div>
+      <div class="form-group">
+        <label class="form-field-label" for="message">Message</label>
+        <textarea class="form-textarea" id="message" name="message" placeholder="Tell me about the project, timeline, and budget if applicable..." required></textarea>
+      </div>
+      <div class="form-submit">
+        <button type="submit" class="submit-btn">Send Message →</button>
+        <p class="submit-note">I typically respond<br>within 24–48 hours.</p>
+      </div>
+      <p class="success-msg" id="successMsg">Got it — I'll be in touch soon. ✦</p>
+    </form>
+  </div>
+</main>
+
+<footer>
+  <span class="footer-logo">FILS</span>
+  <span class="footer-copy">© 2026 Fils D. Frank — All rights reserved</span>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+  });
+  function animateRing() {
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 20}px, ${ry - 20}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; ring.style.borderColor = 'rgba(200,169,110,0.8)'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '40px'; ring.style.height = '40px'; ring.style.borderColor = 'rgba(200,169,110,0.5)'; });
+  });
+
+  // Form handling via Formspree
+  const form = document.getElementById('contactForm');
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const btn = form.querySelector('.submit-btn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.reset();
+        document.getElementById('successMsg').style.display = 'block';
+        btn.style.display = 'none';
+      } else {
+        btn.textContent = 'Try again →';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = 'Try again →';
+      btn.disabled = false;
+    }
+  });
+</script>
+</body>
+</html>

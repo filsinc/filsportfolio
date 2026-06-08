@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FILS — Reach</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --black: #0a0a0a; --white: #f5f2ec; --cream: #f0ead8; --accent: #c8a96e; --accent-dim: #8a6f3f; --mid: #888; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: 'Manrope', sans-serif; font-weight: 300; cursor: none; overflow-x: hidden; }
+  .cursor { width: 12px; height: 12px; background: var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+  .cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(200,169,110,0.5); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transition: transform 0.08s ease, width 0.3s, height 0.3s, border-color 0.3s; }
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 3rem; mix-blend-mode: difference; }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.15em; color: var(--white); text-decoration: none; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--white); text-decoration: none; opacity: 0.6; transition: opacity 0.2s; }
+  .nav-links a:hover, .nav-links a.active { opacity: 1; }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--accent-dim); }
+  footer { border-top: 1px solid rgba(255,255,255,0.08); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.2); }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.2); }
+
+  /* Page header */
+  .page-header {
+    padding: 14rem 3rem 5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .page-header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 14vw, 12rem);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+    margin-bottom: 2rem;
+  }
+  .page-subtitle {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: rgba(245,242,236,0.5);
+    max-width: 500px;
+  }
+
+  /* Totals banner */
+  .totals-banner {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+  .total-card {
+    background: var(--black);
+    padding: 3rem 2.5rem;
+  }
+  .total-platform {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .total-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 1;
+    color: var(--white);
+    display: block;
+  }
+  .total-label {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--accent);
+    display: block;
+    margin-top: 0.4rem;
+  }
+
+  /* Platform deep dives */
+  .platforms-section {
+    padding: 6rem 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .platform-row {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 4rem;
+    align-items: start;
+    padding: 3rem 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .platform-row:first-of-type { border-top: none; padding-top: 0; }
+  .platform-left {}
+  .platform-name-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    margin-bottom: 0.75rem;
+  }
+  .platform-handle {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+  .platform-main-stat {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--white);
+    display: block;
+  }
+  .platform-main-stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    display: block;
+    margin-top: 0.25rem;
+  }
+  .platform-right {}
+  .platform-desc {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: rgba(245,242,236,0.6);
+    margin-bottom: 1.5rem;
+  }
+  .platform-stats-mini {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+  .mini-stat {
+    background: var(--black);
+    padding: 1rem;
+  }
+  .mini-stat-n {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--white);
+    display: block;
+    line-height: 1;
+  }
+  .mini-stat-l {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    display: block;
+    margin-top: 0.3rem;
+  }
+  .platform-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-dim);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .platform-link:hover { color: var(--white); border-color: var(--white); }
+
+  /* Media kit CTA */
+  .cta-section {
+    padding: 6rem 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+  }
+  .cta-text {}
+  .cta-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    margin-bottom: 1rem;
+  }
+  .cta-sub {
+    font-size: 0.9rem;
+    color: rgba(245,242,236,0.5);
+    max-width: 380px;
+    line-height: 1.7;
+  }
+  .cta-btn {
+    flex-shrink: 0;
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--accent);
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .cta-btn:hover { background: var(--cream); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .page-header { padding: 10rem 1.5rem 3rem; }
+    .totals-banner { grid-template-columns: 1fr 1fr; }
+    .platforms-section { padding: 4rem 1.5rem; }
+    .platform-row { grid-template-columns: 1fr; gap: 2rem; }
+    .cta-section { flex-direction: column; align-items: flex-start; padding: 4rem 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">FILS</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="reach.html" class="active">Reach</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <p class="page-header-label">Audience & Platforms</p>
+  <h1 class="page-title">Reach</h1>
+  <p class="page-subtitle">Cross-platform presence built organically — no paid growth, no shortcuts.</p>
+</div>
+
+<!-- Totals -->
+<div class="totals-banner">
+  <div class="total-card">
+    <span class="total-platform">Instagram</span>
+    <span class="total-num">109K</span>
+    <span class="total-label">Followers</span>
+  </div>
+  <div class="total-card">
+    <span class="total-platform">TikTok</span>
+    <span class="total-num">51K</span>
+    <span class="total-label">Followers</span>
+  </div>
+  <div class="total-card">
+    <span class="total-platform">YouTube</span>
+    <span class="total-num">2</span>
+    <span class="total-label">Monetized channels</span>
+  </div>
+  <div class="total-card">
+    <span class="total-platform">Spotify</span>
+    <span class="total-num">~100K</span>
+    <span class="total-label">Streams</span>
+  </div>
+</div>
+
+<!-- Platforms deep dive -->
+<div class="platforms-section">
+  <p class="section-label">Platform Breakdown</p>
+
+  <div class="platform-row">
+    <div class="platform-left">
+      <h2 class="platform-name-big">Instagram</h2>
+      <span class="platform-handle">@filsdfrank</span>
+      <span class="platform-main-stat">109K</span>
+      <span class="platform-main-stat-label">Followers</span>
+    </div>
+    <div class="platform-right">
+      <p class="platform-desc">Primary platform for brand partnerships and UGC distribution. Stories posted within 10 minutes of any YouTube upload are the single biggest traffic driver across channels. The audience skews queer, Gen Z, and culturally plugged-in.</p>
+      <div class="platform-stats-mini">
+        <div class="mini-stat">
+          <span class="mini-stat-n">109K</span>
+          <span class="mini-stat-l">Followers</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-n">10 min</span>
+          <span class="mini-stat-l">Story turnaround</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-n">Gen Z</span>
+          <span class="mini-stat-l">Core audience</span>
+        </div>
+      </div>
+      <a href="https://instagram.com/filsdfrank" class="platform-link" target="_blank">Visit profile →</a>
+    </div>
+  </div>
+
+  <div class="platform-row">
+    <div class="platform-left">
+      <h2 class="platform-name-big">TikTok</h2>
+      <span class="platform-handle">@filsdfrank</span>
+      <span class="platform-main-stat">51K</span>
+      <span class="platform-main-stat-label">Followers</span>
+    </div>
+    <div class="platform-right">
+      <p class="platform-desc">Short-form native platform. Where hooks get tested and trends get identified before they're mainstream. Music releases under GENDER ZENDER and LESBIONAGE have driven organic streams through TikTok discovery.</p>
+      <div class="platform-stats-mini">
+        <div class="mini-stat">
+          <span class="mini-stat-n">51K</span>
+          <span class="mini-stat-l">Followers</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-n">2</span>
+          <span class="mini-stat-l">Artist projects</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-n">WLW/Queer</span>
+          <span class="mini-stat-l">Niche community</span>
+        </div>
+      </div>
+      <a href="https://tiktok.com/@filsdfrank" class="platform-link" target="_blank">Visit profile →</a>
+    </div>
+  </div>
+
+  <div class="platform-row">
+    <div class="platform-left">
+      <h2 class="platform-name-big">YouTube</h2>
+      <span class="platform-handle">FILS 2.0 + Fils D. Frank</span>
+      <span class="platform-main-stat">2</span>
+      <span class="platform-main-stat-label">Monetized channels</span>
+    </div>
+    <div class="platform-right">
+      <p class="platform-desc">Two distinct YouTube channels for two distinct audiences. FILS 2.0 covers queer commentary and social experiments — recently monetized after "100 Girls on a Date" hit 37K+ views at 7%+ CTR. Fils D. Frank is an original animated universe with 18.9K subscribers and a $1.85 RPM.</p>
+      <div class="platform-stats-mini">
+        <div class="mini-stat">
+          <span class="mini-stat-n">37K+</span>
+          <span class="mini-stat-l">Top video views</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-n">7%+</span>
+          <span class="mini-stat-l">CTR at scale</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-n">18.9K</span>
+          <span class="mini-stat-l">Fils D. Frank subs</span>
+        </div>
+      </div>
+      <a href="https://youtube.com/@filsdfrank" class="platform-link" target="_blank">Visit channel →</a>
+    </div>
+  </div>
+
+  <div class="platform-row">
+    <div class="platform-left">
+      <h2 class="platform-name-big">Spotify</h2>
+      <span class="platform-handle">GENDER ZENDER · LESBIONAGE</span>
+      <span class="platform-main-stat">~100K</span>
+      <span class="platform-main-stat-label">Streams</span>
+    </div>
+    <div class="platform-right">
+      <p class="platform-desc">Original music across two artist projects targeting WLW and queer audiences. GENDER ZENDER has ~100K streams; LESBIONAGE has ~27K. Music distributed via LANDR, mastered professionally, registered with BMI for royalties.</p>
+      <div class="platform-stats-mini">
+        <div class="mini-stat">
+          <span class="mini-stat-n">~100K</span>
+          <span class="mini-stat-l">GENDER ZENDER streams</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-n">~27K</span>
+          <span class="mini-stat-l">LESBIONAGE streams</span>
+        </div>
+        <div class="mini-stat">
+          <span class="mini-stat-n">BMI</span>
+          <span class="mini-stat-l">Royalties active</span>
+        </div>
+      </div>
+      <a href="https://open.spotify.com" class="platform-link" target="_blank">Listen on Spotify →</a>
+    </div>
+  </div>
+
+</div>
+
+<!-- Media kit CTA -->
+<div class="cta-section">
+  <div class="cta-text">
+    <h2 class="cta-headline">Want the<br>full media kit?</h2>
+    <p class="cta-sub">Detailed audience demographics, engagement rates, past brand collaborations, and rate card available on request.</p>
+  </div>
+  <a href="contact.html" class="cta-btn">Get in touch →</a>
+</div>
+
+<footer>
+  <span class="footer-logo">FILS</span>
+  <span class="footer-copy">© 2026 Fils D. Frank — All rights reserved</span>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+  });
+  function animateRing() {
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 20}px, ${ry - 20}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; ring.style.borderColor = 'rgba(200,169,110,0.8)'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '40px'; ring.style.height = '40px'; ring.style.borderColor = 'rgba(200,169,110,0.5)'; });
+  });
+</script>
+</body>
+</html>

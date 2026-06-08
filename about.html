@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FILS — About</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root { --black: #0a0a0a; --white: #f5f2ec; --cream: #f0ead8; --accent: #c8a96e; --accent-dim: #8a6f3f; --mid: #888; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: 'Manrope', sans-serif; font-weight: 300; cursor: none; overflow-x: hidden; }
+
+  .cursor { width: 12px; height: 12px; background: var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
+  .cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(200,169,110,0.5); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transition: transform 0.08s ease, width 0.3s, height 0.3s, border-color 0.3s; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 3rem; mix-blend-mode: difference; }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.15em; color: var(--white); text-decoration: none; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--white); text-decoration: none; opacity: 0.6; transition: opacity 0.2s; }
+  .nav-links a:hover { opacity: 1; }
+  .nav-links a.active { opacity: 1; }
+
+  /* Page header */
+  .page-header {
+    padding: 14rem 3rem 4rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: end;
+  }
+  .page-header-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  .page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 12vw, 10rem);
+    line-height: 0.9;
+    letter-spacing: -0.01em;
+  }
+  .page-header-right {
+    padding-bottom: 0.5rem;
+  }
+  .page-intro {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    line-height: 1.4;
+    color: var(--cream);
+  }
+  .page-intro em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  /* Bio section */
+  .bio-section {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 6rem;
+    padding: 6rem 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .bio-sidebar {}
+  .bio-sidebar-item {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 1.25rem 0;
+  }
+  .bio-sidebar-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.4rem;
+  }
+  .bio-sidebar-value {
+    font-size: 0.9rem;
+    color: var(--white);
+    line-height: 1.5;
+  }
+  .bio-sidebar-value a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .bio-body p {
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: rgba(245,242,236,0.7);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+  .bio-body p strong {
+    color: var(--white);
+    font-weight: 500;
+  }
+  .bio-pull {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 1.5rem;
+    line-height: 1.5;
+    color: var(--cream);
+    border-left: 2px solid var(--accent);
+    padding-left: 1.5rem;
+    margin: 2.5rem 0;
+  }
+
+  /* Skills section */
+  .skills-section {
+    padding: 6rem 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .section-label { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem; }
+  .section-label::after { content: ''; flex: 1; max-width: 60px; height: 1px; background: var(--accent-dim); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+  .skill-card {
+    background: var(--black);
+    padding: 2rem 2rem 2.5rem;
+  }
+  .skill-card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+  .skill-card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+  .skill-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .skill-list li {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: rgba(245,242,236,0.5);
+    padding-left: 1rem;
+    position: relative;
+  }
+  .skill-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent-dim);
+  }
+
+  /* Platforms row */
+  .platforms-section {
+    padding: 6rem 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .platforms-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(255,255,255,0.06);
+  }
+  .platform-card {
+    background: var(--black);
+    padding: 2.5rem 2rem;
+  }
+  .platform-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+  .platform-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: var(--white);
+    line-height: 1;
+    display: block;
+  }
+  .platform-sub {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--accent);
+    display: block;
+    margin-top: 0.3rem;
+  }
+
+  /* Education & experience */
+  .creds-section {
+    padding: 6rem 3rem;
+  }
+  .creds-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+  .creds-block-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .cred-item {
+    padding: 1.25rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .cred-year {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+  }
+  .cred-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 0.2rem;
+  }
+  .cred-sub {
+    font-size: 0.8rem;
+    color: rgba(245,242,236,0.45);
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+
+  footer { border-top: 1px solid rgba(255,255,255,0.08); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.2); }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.2); }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .page-header { grid-template-columns: 1fr; padding: 10rem 1.5rem 3rem; gap: 2rem; }
+    .bio-section { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .platforms-row { grid-template-columns: 1fr 1fr; }
+    .creds-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .skills-section, .platforms-section, .creds-section { padding: 4rem 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">FILS</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="work.html">Work</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <div>
+    <p class="page-header-label">Who I Am</p>
+    <h1 class="page-title">About<br>Fils</h1>
+  </div>
+  <div class="page-header-right">
+    <p class="page-intro">A Brooklyn creator building content at the intersection of <em>performance, storytelling,</em> and conversion.</p>
+  </div>
+</div>
+
+<!-- Bio -->
+<div class="bio-section">
+  <div class="bio-sidebar">
+    <div class="bio-sidebar-item">
+      <p class="bio-sidebar-label">Based in</p>
+      <p class="bio-sidebar-value">Brooklyn, NY</p>
+    </div>
+    <div class="bio-sidebar-item">
+      <p class="bio-sidebar-label">Education</p>
+      <p class="bio-sidebar-value">NYU Tisch School of the Arts<br>Interactive Media Arts, B.F.A.<br>Graduating Dec 2026</p>
+    </div>
+    <div class="bio-sidebar-item">
+      <p class="bio-sidebar-label">Available for</p>
+      <p class="bio-sidebar-value">Brand deals · UGC campaigns<br>Full-time content roles<br>Remote or NYC-based</p>
+    </div>
+    <div class="bio-sidebar-item">
+      <p class="bio-sidebar-label">Tools</p>
+      <p class="bio-sidebar-value">Premiere Pro · After Effects<br>OBS · Suno · LANDR</p>
+    </div>
+    <div class="bio-sidebar-item">
+      <p class="bio-sidebar-label">Music registered with</p>
+      <p class="bio-sidebar-value">BMI (royalties active)</p>
+    </div>
+  </div>
+
+  <div class="bio-body">
+    <p>I'm <strong>Fils</strong> — a multidisciplinary creator, filmmaker, and on-camera performer based in Brooklyn. I study Interactive Media Arts at NYU Tisch, where I've built everything from AR installations to browser-based games to performance art pieces that live on the street and on the internet.</p>
+
+    <p>My creative practice doesn't fit one box. I make <strong>short-form content that converts</strong> — UGC brand deals, YouTube storytelling, TikTok hooks, and social experiments. I also make music under two artist names, animate an original fictional universe, and co-created a patented hybrid musical instrument.</p>
+
+    <div class="bio-pull">"I don't just make things that look good. I make things that make people stop scrolling."</div>
+
+    <p>What ties it all together: I understand <strong>performance</strong> — both on-camera and in the data sense. I've grown audiences organically, engineered viral moments, negotiated my own brand deals, and built monetized channels from scratch. I iterate fast, take direction well, and bring original energy to everything I touch.</p>
+
+    <p>I've been selected for campaigns with MrBeast and Mark Rober, exhibited AR work at BLANC Museum in Manhattan, and had a documentary film nominated at the New Jersey Film Festival — all before graduating college.</p>
+  </div>
+</div>
+
+<!-- Skills -->
+<div class="skills-section">
+  <p class="section-label">What I Bring</p>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <span class="skill-card-icon">🎬</span>
+      <h3 class="skill-card-title">Video Production</h3>
+      <ul class="skill-list">
+        <li>Short-form video (TikTok, Reels, Shorts)</li>
+        <li>Long-form YouTube storytelling</li>
+        <li>UGC performance creative</li>
+        <li>On-camera talent & presenting</li>
+        <li>Hook engineering & CTR optimization</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <span class="skill-card-icon">✂️</span>
+      <h3 class="skill-card-title">Post-Production</h3>
+      <ul class="skill-list">
+        <li>Adobe Premiere Pro</li>
+        <li>Adobe After Effects</li>
+        <li>OBS Studio (recording/streaming)</li>
+        <li>Motion graphics & visual effects</li>
+        <li>Color, audio mix, sound design</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <span class="skill-card-icon">📈</span>
+      <h3 class="skill-card-title">Growth & Strategy</h3>
+      <ul class="skill-list">
+        <li>Algorithm-aware content strategy</li>
+        <li>Brand deal negotiation</li>
+        <li>Cross-platform audience building</li>
+        <li>Analytics interpretation & iteration</li>
+        <li>DTC & performance creative mindset</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <span class="skill-card-icon">🎵</span>
+      <h3 class="skill-card-title">Music & Audio</h3>
+      <ul class="skill-list">
+        <li>Original music production (Suno Premier)</li>
+        <li>Vocal performance & recording</li>
+        <li>Mastering via LANDR</li>
+        <li>Distribution & BMI registration</li>
+        <li>~100K Spotify streams (GENDER ZENDER)</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <span class="skill-card-icon">🎭</span>
+      <h3 class="skill-card-title">Creative Direction</h3>
+      <ul class="skill-list">
+        <li>Concept development & storyboarding</li>
+        <li>Performance art & social experiment</li>
+        <li>Animation & character design</li>
+        <li>IP & universe building</li>
+        <li>Art direction & visual identity</li>
+      </ul>
+    </div>
+    <div class="skill-card">
+      <span class="skill-card-icon">💻</span>
+      <h3 class="skill-card-title">Interactive & Tech</h3>
+      <ul class="skill-list">
+        <li>Interactive media arts (NYU Tisch)</li>
+        <li>AR installation & exhibition</li>
+        <li>Browser-based game prototyping</li>
+        <li>Hardware product collaboration</li>
+        <li>Content automation & workflow</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Platforms -->
+<div class="platforms-section">
+  <p class="section-label">Platform Reach</p>
+  <div class="platforms-row">
+    <div class="platform-card">
+      <span class="platform-name">Instagram</span>
+      <span class="platform-count">109K</span>
+      <span class="platform-sub">Followers</span>
+    </div>
+    <div class="platform-card">
+      <span class="platform-name">TikTok</span>
+      <span class="platform-count">51K</span>
+      <span class="platform-sub">Followers</span>
+    </div>
+    <div class="platform-card">
+      <span class="platform-name">YouTube</span>
+      <span class="platform-count">2</span>
+      <span class="platform-sub">Monetized channels</span>
+    </div>
+    <div class="platform-card">
+      <span class="platform-name">Spotify</span>
+      <span class="platform-count">~100K</span>
+      <span class="platform-sub">Streams</span>
+    </div>
+  </div>
+</div>
+
+<!-- Credentials -->
+<div class="creds-section">
+  <p class="section-label">Background</p>
+  <div class="creds-grid">
+    <div>
+      <h3 class="creds-block-title">Education & Recognition</h3>
+      <div class="cred-item">
+        <p class="cred-year">2022 – 2026</p>
+        <p class="cred-title">NYU Tisch School of the Arts</p>
+        <p class="cred-sub">Interactive Media Arts, B.F.A.</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-year">2024</p>
+        <p class="cred-title">AR Installation — BLANC Museum</p>
+        <p class="cred-sub">Manhattan, NYC</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-year">2023</p>
+        <p class="cred-title">NJ Film Festival Nominee</p>
+        <p class="cred-sub">Documentary short film</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-year">2023</p>
+        <p class="cred-title">#TeamWater Global Campaign</p>
+        <p class="cred-sub">MrBeast & Mark Rober</p>
+      </div>
+    </div>
+    <div>
+      <h3 class="creds-block-title">Work & Partnerships</h3>
+      <div class="cred-item">
+        <p class="cred-year">2025 – Present</p>
+        <p class="cred-title">YouTube Partner Program</p>
+        <p class="cred-sub">FILS 2.0 — Monetized channel</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-year">2025</p>
+        <p class="cred-title">Wuthering Waves UGC Campaign</p>
+        <p class="cred-sub">Gaming brand deal — full production</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-year">2025</p>
+        <p class="cred-title">Keyano — Patented Hybrid Instrument</p>
+        <p class="cred-sub">Co-creator · DEMO2026, New Museum NYC</p>
+      </div>
+      <div class="cred-item">
+        <p class="cred-year">2024 – Present</p>
+        <p class="cred-title">BMI Music Royalties</p>
+        <p class="cred-sub">GENDER ZENDER · LESBIONAGE</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-logo">FILS</span>
+  <span class="footer-copy">© 2026 Fils D. Frank — All rights reserved</span>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+  });
+  function animateRing() {
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.transform = `translate(${rx - 20}px, ${ry - 20}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; ring.style.borderColor = 'rgba(200,169,110,0.8)'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '40px'; ring.style.height = '40px'; ring.style.borderColor = 'rgba(200,169,110,0.5)'; });
+  });
+</script>
+</body>
+</html>
