@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FILS — Creator Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #080810;
+    --surface: #0f0f1a;
+    --surface2: #14141f;
+    --white: #f0eeff;
+    --muted: rgba(240,238,255,0.5);
+    --accent: #9b7fff;
+    --accent2: #ff7eb3;
+    --accent3: #7ecfff;
+    --glow: rgba(155,127,255,0.15);
+    --border: rgba(255,255,255,0.07);
+    --mid: #666680;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 300;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* Cursor */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    mix-blend-mode: screen;
+    transition: width 0.2s, height 0.2s;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(155,127,255,0.4);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: width 0.3s, height 0.3s, border-color 0.3s;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* Nav */
+  nav {
+    position: fixed; top: 1.5rem; left: 50%; transform: translateX(-50%);
+    z-index: 100;
+    display: flex; align-items: center; gap: 2rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(15,15,26,0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    width: max-content;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    color: var(--white);
+    text-decoration: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .nav-divider { width: 1px; height: 16px; background: var(--border); }
+  .nav-links { display: flex; gap: 0.25rem; list-style: none; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0.4rem 0.9rem;
+    border-radius: 100px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); background: rgba(255,255,255,0.06); }
+  .nav-social { display: flex; gap: 0.75rem; align-items: center; }
+  .nav-social a {
+    width: 30px; height: 30px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    color: var(--muted);
+    transition: color 0.2s, background 0.2s;
+    text-decoration: none;
+  }
+  .nav-social a:hover { color: var(--white); background: rgba(255,255,255,0.08); }
+  .nav-social svg { width: 15px; height: 15px; fill: currentColor; }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(155,127,255,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,126,179,0.07) 0%, transparent 70%);
+    top: 30%; right: 10%;
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(155,127,255,0.3);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    background: rgba(155,127,255,0.06);
+  }
+  .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: blink 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 16vw, 14rem);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
+  .hero-title .line1 {
+    display: block;
+    background: linear-gradient(135deg, #fff 30%, rgba(255,255,255,0.6));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-title .line2 {
+    display: block;
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 0.55em;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-desc {
+    max-width: 440px;
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--muted);
+    margin: 1.5rem auto 2.5rem;
+  }
+
+  .hero-ctas {
+    display: flex; gap: 1rem; align-items: center; justify-content: center;
+    flex-wrap: wrap; margin-bottom: 4rem;
+  }
+  .btn-primary {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+    font-weight: 600;
+  }
+  .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+  .btn-ghost {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--white);
+    border: 1px solid var(--border);
+    padding: 0.85rem 2rem;
+    border-radius: 100px;
+    text-decoration: none;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15); }
+
+  .hero-stats {
+    display: flex; gap: 0; 
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.02);
+  }
+  .hero-stat {
+    padding: 1.25rem 2.5rem;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .hero-stat:last-child { border-right: none; }
+  .hero-stat:hover { background: rgba(255,255,255,0.04); }
+  .hero-stat-icon { display: flex; align-items: center; justify-content: center; margin-bottom: 0.5rem; }
+  .hero-stat-icon svg { width: 18px; height: 18px; fill: var(--muted); }
+  .hero-stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    line-height: 1;
+    display: block;
+    background: linear-gradient(135deg, var(--white), rgba(255,255,255,0.7));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    display: block;
+    margin-top: 0.2rem;
+  }
+
+  /* Marquee */
+  .marquee-wrap {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 0.9rem 0;
+    background: var(--surface);
+  }
+  .marquee-track {
+    display: flex; gap: 2.5rem;
+    animation: marquee 22s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+    flex-shrink: 0;
+  }
+  .marquee-item.accent { color: var(--accent); opacity: 0.6; }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* Sections */
+  section { padding: 6rem 3rem; }
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(155,127,255,0.08);
+    border: 1px solid rgba(155,127,255,0.2);
+    padding: 0.35rem 0.9rem;
+    border-radius: 100px;
+    margin-bottom: 3rem;
+  }
+
+  /* Work grid */
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .work-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .work-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(155,127,255,0.03), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: inherit;
+  }
+  .work-card:hover { border-color: rgba(155,127,255,0.3); transform: translateY(-2px); }
+  .work-card:hover::before { opacity: 1; }
+  .work-card-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .work-card-tag::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--accent); display:inline-block; }
+  .work-card-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem;
+    line-height: 1.25;
+    margin-bottom: 0.6rem;
+    color: var(--white);
+  }
+  .work-card-desc {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+  .work-card-arrow {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    margin-top: 1.25rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .work-card:hover .work-card-arrow { opacity: 1; transform: translateX(0); }
+
+  /* Featured card */
+  .work-card.featured {
+    grid-column: span 2;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+  }
+  .featured-info { padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; }
+  .featured-info .work-card-title { font-size: 1.8rem; }
+  .video-wrapper {
+    position: relative;
+    border-radius: 0 15px 15px 0;
+    overflow: hidden;
+    background: #000;
+    aspect-ratio: 16/9;
+  }
+  .video-wrapper iframe {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  }
+
+  /* UGC placeholder */
+  .ugc-placeholder {
+    margin-top: 1.25rem;
+    flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    border: 1px dashed rgba(155,127,255,0.2);
+    border-radius: 10px;
+    min-height: 100px;
+    background: rgba(155,127,255,0.02);
+  }
+  .ugc-placeholder span {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(155,127,255,0.3);
+  }
+
+  /* About */
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-left {}
+  .about-headline {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    line-height: 1.3;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+  }
+  .about-headline em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .about-body p {
+    font-size: 0.9rem;
+    line-height: 1.85;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.5rem; }
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 0.35rem 0.8rem;
+    border-radius: 100px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .tag:hover { border-color: rgba(155,127,255,0.4); color: var(--accent); }
+
+  /* Social / platforms */
+  .socials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+  .social-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex; flex-direction: column; gap: 1rem;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .social-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--card-color, var(--accent));
+    transform: scaleX(0);
+    transition: transform 0.3s;
+    transform-origin: left;
+  }
+  .social-card:hover { border-color: rgba(255,255,255,0.12); transform: translateY(-2px); }
+  .social-card:hover::after { transform: scaleX(1); }
+  .social-card-top { display: flex; align-items: center; justify-content: space-between; }
+  .social-icon {
+    width: 40px; height: 40px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--icon-bg, rgba(155,127,255,0.1));
+  }
+  .social-icon svg { width: 20px; height: 20px; fill: var(--card-color, var(--accent)); }
+  .social-arrow { color: var(--mid); font-size: 0.8rem; opacity: 0; transition: opacity 0.2s, transform 0.2s; transform: translateX(-4px); }
+  .social-card:hover .social-arrow { opacity: 1; transform: translateX(0); }
+  .social-count {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    line-height: 1;
+    color: var(--white);
+    display: block;
+  }
+  .social-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    display: block;
+    margin-top: 0.2rem;
+  }
+  .social-handle {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: auto;
+  }
+
+  /* Contact */
+  .contact-inner { max-width: 560px; }
+  .contact-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 0.92;
+    background: linear-gradient(135deg, var(--white) 40%, var(--muted));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1.5rem;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 2rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 0.9rem 1.25rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .contact-link:hover { border-color: rgba(155,127,255,0.3); color: var(--white); background: rgba(155,127,255,0.05); }
+  .contact-link svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
+  .contact-link .lk {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mid);
+    min-width: 70px;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--mid);
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 0.6rem 1rem; gap: 1rem; }
+    .nav-links { display: none; }
+    .nav-social { display: none; }
+    .hero { padding: 7rem 1.5rem 3rem; }
+    .hero-stats { flex-direction: column; gap: 0; width: 100%; }
+    .hero-stat { border-right: none; border-bottom: 1px solid var(--border); }
+    .hero-stat:last-child { border-bottom: none; }
+    section { padding: 4rem 1.5rem; }
+    .work-grid { grid-template-columns: 1fr; }
+    .work-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+    .video-wrapper { border-radius: 0 0 15px 15px; aspect-ratio: 16/9; }
+    .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .socials-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- Nav -->
+<nav>
+  <a href="index.html" class="nav-logo">FILS</a>
+  <div class="nav-divider"></div>
+  <ul class="nav-links">
+    <li><a href="work.html">Work</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="reach.html">Reach</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-divider"></div>
+  <div class="nav-social">
+    <!-- Instagram -->
+    <a href="https://instagram.com/filsdfrank" target="_blank" title="Instagram">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <!-- TikTok -->
+    <a href="https://tiktok.com/@filsdfrank" target="_blank" title="TikTok">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+    </a>
+    <!-- YouTube -->
+    <a href="https://youtube.com/@filsdfrank" target="_blank" title="YouTube">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    </a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    Available for brand deals & content roles
+  </div>
+
+  <h1 class="hero-title">
+    <span class="line1">FILS</span>
+    <span class="line2">D. Frank</span>
+  </h1>
+
+  <p class="hero-desc">Brooklyn-based creator, filmmaker & performer. Building content that stops the scroll — UGC, short-form video, brand deals, and original storytelling.</p>
+
+  <div class="hero-ctas">
+    <a href="work.html" class="btn-primary">View My Work</a>
+    <a href="contact.html" class="btn-ghost">Get In Touch</a>
+  </div>
+
+  <div class="hero-stats">
+    <a href="https://instagram.com/filsdfrank" target="_blank" class="hero-stat">
+      <div class="hero-stat-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+      </div>
+      <span class="hero-stat-num">109K</span>
+      <span class="hero-stat-label">Instagram</span>
+    </a>
+    <a href="https://tiktok.com/@filsdfrank" target="_blank" class="hero-stat">
+      <div class="hero-stat-icon">
+        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+      </div>
+      <span class="hero-stat-num">51K</span>
+      <span class="hero-stat-label">TikTok</span>
+    </a>
+    <a href="https://youtube.com/@filsdfrank" target="_blank" class="hero-stat">
+      <div class="hero-stat-icon">
+        <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+      </div>
+      <span class="hero-stat-num">2</span>
+      <span class="hero-stat-label">YT Channels</span>
+    </a>
+  </div>
+</section>
+
+<!-- Marquee -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">UGC</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Short-Form Video</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Brand Partnerships</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">YouTube</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">TikTok</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Instagram</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Adobe Suite</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">On-Camera Talent</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Performance Creative</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">UGC</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Short-Form Video</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Brand Partnerships</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">YouTube</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">TikTok</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Instagram</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Adobe Suite</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">On-Camera Talent</span><span class="marquee-item accent">✦</span>
+    <span class="marquee-item">Performance Creative</span><span class="marquee-item accent">✦</span>
+  </div>
+</div>
+
+<!-- Work -->
+<section id="work">
+  <p class="section-label">✦ Selected Work</p>
+  <div class="work-grid">
+
+    <div class="work-card featured">
+      <div class="featured-info">
+        <p class="work-card-tag">YouTube · FILS 2.0</p>
+        <h2 class="work-card-title">"100 Girls on a Date"</h2>
+        <p class="work-card-desc">Social experiment format. Written, filmed, edited, and performed solo.</p>
+      </div>
+      <div class="video-wrapper">
+        <iframe src="https://www.youtube.com/embed/YZBYj4OJJm0" title="100 Girls on a Date" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div class="work-card" style="display:flex;flex-direction:column;">
+      <p class="work-card-tag">UGC · Brand Deal</p>
+      <h3 class="work-card-title">Wuthering Waves Gaming Campaign</h3>
+      <p class="work-card-desc">Performance-focused UGC for a major gaming title. Flat-rate brand deal, full production end-to-end.</p>
+      <div class="ugc-placeholder"><span>Video coming soon</span></div>
+    </div>
+
+    <div class="work-card">
+      <p class="work-card-tag">Performance Art · NYC</p>
+      <h3 class="work-card-title">The Human Canvas Experiment</h3>
+      <p class="work-card-desc">Live social experiment where strangers paint directly on skin in Washington Square Park. Documented for short-form content.</p>
+    </div>
+
+    <a href="https://youtube.com/filsdfrank" target="_blank" class="work-card">
+      <p class="work-card-tag">Animation · YouTube</p>
+      <h3 class="work-card-title">Fils D. Frank Universe</h3>
+      <p class="work-card-desc">Original animated IP with 18.9K subscribers. Ongoing storytelling universe with original characters, lore, and music.</p>
+      <span class="work-card-arrow">Visit channel →</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- About -->
+<section id="about">
+  <p class="section-label">✦ About</p>
+  <div class="about-inner">
+    <div class="about-left">
+      <h2 class="about-headline">Content that makes people stop, watch, and <em>act.</em></h2>
+    </div>
+    <div class="about-body">
+      <p>I'm Fils — a Brooklyn-based creator, filmmaker, and performer studying Interactive Media Arts at NYU Tisch School of the Arts (B.F.A., graduating December 2026).</p>
+      <p>I build content across formats: UGC brand deals, YouTube storytelling, short-form social, and performance art. My background spans on-camera performance, Adobe Suite editing, and a real understanding of what makes content convert.</p>
+      <p>I've worked with gaming brands, negotiated my own deals, grown audiences organically from zero, and cracked the YouTube algorithm.</p>
+      <div class="tags">
+        <span class="tag">Premiere Pro</span>
+        <span class="tag">After Effects</span>
+        <span class="tag">On-Camera</span>
+        <span class="tag">UGC</span>
+        <span class="tag">Short-Form</span>
+        <span class="tag">Storytelling</span>
+        <span class="tag">DTC</span>
+        <span class="tag">Performance Creative</span>
+        <span class="tag">NYU Tisch</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Socials / Reach -->
+<section id="platforms">
+  <p class="section-label">✦ Find Me</p>
+  <div class="socials-grid">
+
+    <a href="https://instagram.com/filsdfrank" target="_blank" class="social-card" style="--card-color:#e1306c; --icon-bg:rgba(225,48,108,0.1);">
+      <div class="social-card-top">
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        </div>
+        <span class="social-arrow">→</span>
+      </div>
+      <div>
+        <span class="social-count">109K</span>
+        <span class="social-label">Followers</span>
+      </div>
+      <span class="social-handle">@filsdfrank on Instagram</span>
+    </a>
+
+    <a href="https://tiktok.com/@filsdfrank" target="_blank" class="social-card" style="--card-color:#69c9d0; --icon-bg:rgba(105,201,208,0.1);">
+      <div class="social-card-top">
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+        </div>
+        <span class="social-arrow">→</span>
+      </div>
+      <div>
+        <span class="social-count">51K</span>
+        <span class="social-label">Followers</span>
+      </div>
+      <span class="social-handle">@filsdfrank on TikTok</span>
+    </a>
+
+    <a href="https://youtube.com/@filsdfrank" target="_blank" class="social-card" style="--card-color:#ff0000; --icon-bg:rgba(255,0,0,0.08);">
+      <div class="social-card-top">
+        <div class="social-icon">
+          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+        </div>
+        <span class="social-arrow">→</span>
+      </div>
+      <div>
+        <span class="social-count">2</span>
+        <span class="social-label">Monetized Channels</span>
+      </div>
+      <span class="social-handle">@filsdfrank on YouTube</span>
+    </a>
+
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <p class="section-label">✦ Get In Touch</p>
+  <div class="contact-inner">
+    <h2 class="contact-headline">Let's Work<br>Together</h2>
+    <p style="font-size:0.88rem; color:var(--muted); line-height:1.8; max-width:440px;">Available for brand partnerships, UGC campaigns, content strategy, and full-time roles. Brooklyn-based, open to remote.</p>
+    <div class="contact-links">
+      <a href="mailto:filsinc.co@gmail.com" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        <span class="lk">Email</span>
+        filsinc.co@gmail.com
+      </a>
+      <a href="https://instagram.com/filsdfrank" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        <span class="lk">Instagram</span>
+        @filsdfrank
+      </a>
+      <a href="https://tiktok.com/@filsdfrank" target="_blank" class="contact-link">
+        <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+        <span class="lk">TikTok</span>
+        @filsdfrank
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-logo">FILS</span>
+  <span class="footer-copy">© 2026 Fils D. Frank — All rights reserved</span>
+</footer>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 5}px, ${my - 5}px)`;
+  });
+  function animateRing() {
+    rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width = '56px'; ring.style.height = '56px'; ring.style.borderColor = 'rgba(155,127,255,0.6)'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.borderColor = 'rgba(155,127,255,0.4)'; });
+  });
+</script>
+</body>
+</html>
