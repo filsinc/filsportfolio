@@ -269,6 +269,7 @@
   }
   .marquee-item.accent { color: var(--accent); opacity: 0.6; }
   @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  @keyframes videoScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
   /* Sections */
   section { padding: 6rem 3rem; }
@@ -369,6 +370,9 @@
   .video-wrapper iframe {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
   }
+
+  .c-dot { width:6px; height:6px; border-radius:50%; background:rgba(155,127,255,0.2); cursor:none; transition:background 0.3s, width 0.3s; display:inline-block; }
+  .c-dot.active { background:var(--accent); width:20px; border-radius:3px; }
 
   /* UGC placeholder */
   .ugc-placeholder {
@@ -575,9 +579,6 @@
   <a href="index.html" class="nav-logo">FILS</a>
   <div class="nav-divider"></div>
   <ul class="nav-links">
-    <li><a href="work.html">Work</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="reach.html">Reach</a></li>
     <li><a href="contact.html">Contact</a></li>
   </ul>
   <div class="nav-divider"></div>
@@ -671,115 +672,157 @@
 <!-- Work -->
 <section id="work">
   <p class="section-label">✦ Selected Work</p>
+
+  <!-- Carousel -->
+  <div style="margin-bottom:1rem; overflow:hidden; position:relative;">
+    <!-- fade edges -->
+    <div style="position:absolute;top:0;left:0;width:80px;height:100%;background:linear-gradient(to right,var(--black),transparent);z-index:2;pointer-events:none;"></div>
+    <div style="position:absolute;top:0;right:0;width:80px;height:100%;background:linear-gradient(to left,var(--black),transparent);z-index:2;pointer-events:none;"></div>
+
+    <div id="videoTrack" style="display:flex;gap:1.25rem;width:max-content;animation:videoScroll 32s linear infinite;" onmouseenter="document.getElementById('videoTrack').style.animationPlayState='paused'" onmouseleave="document.getElementById('videoTrack').style.animationPlayState='running'">
+
+      <!-- original set -->
+      <div style="width:420px;flex-shrink:0;">
+        <div style="position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/YZBYj4OJJm0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Second Channel</p>
+      </div>
+      <div style="width:420px;flex-shrink:0;">
+        <div style="position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/G5EWO5OvJCY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Appearances</p>
+      </div>
+      <div style="width:420px;flex-shrink:0;">
+        <div style="position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/jRrxXPAv8Q4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Video</p>
+      </div>
+      <div style="width:420px;flex-shrink:0;">
+        <div style="position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/-q5VvNJW8GA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Video</p>
+      </div>
+      <div style="width:420px;flex-shrink:0;">
+        <div style="position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/IwnM-rNlGJ4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Video</p>
+      </div>
+      <div style="width:420px;flex-shrink:0;">
+        <a href="https://www.instagram.com/reel/DZS7dwwp8Tg/" target="_blank" style="text-decoration:none;display:block;">
+          <div style="aspect-ratio:16/9;border-radius:12px;background:linear-gradient(135deg,rgba(225,48,108,0.15),rgba(155,127,255,0.1));border:1px solid rgba(225,48,108,0.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="rgba(225,48,108,0.8)"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            <span style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(225,48,108,0.7);">View Reel</span>
+          </div>
+          <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Instagram Reel</p>
+        </a>
+      </div>
+
+      <!-- duplicate set for seamless loop -->
+      <div style="width:420px;flex-shrink:0;">
+        <div style="position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/YZBYj4OJJm0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Second Channel</p>
+      </div>
+      <div style="width:420px;flex-shrink:0;">
+        <div style="position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/G5EWO5OvJCY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Appearances</p>
+      </div>
+      <div style="width:420px;flex-shrink:0;">
+        <div style="position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/jRrxXPAv8Q4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Video</p>
+      </div>
+      <div style="width:420px;flex-shrink:0;">
+        <div style="position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/-q5VvNJW8GA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Video</p>
+      </div>
+      <div style="width:420px;flex-shrink:0;">
+        <div style="position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/IwnM-rNlGJ4" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Video</p>
+      </div>
+      <div style="width:420px;flex-shrink:0;">
+        <a href="https://www.instagram.com/reel/DZS7dwwp8Tg/" target="_blank" style="text-decoration:none;display:block;">
+          <div style="aspect-ratio:16/9;border-radius:12px;background:linear-gradient(135deg,rgba(225,48,108,0.15),rgba(155,127,255,0.1));border:1px solid rgba(225,48,108,0.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="rgba(225,48,108,0.8)"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            <span style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(225,48,108,0.7);">View Reel</span>
+          </div>
+          <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Instagram Reel</p>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- UGC label -->
+  <p class="section-label" style="margin-top:2rem;">✦ UGC & Brand Deals</p>
+
+  <!-- UGC smooth scroll strip (portrait/shorts) -->
+  <div style="margin-bottom:2rem; overflow:hidden; position:relative;">
+    <div style="position:absolute;top:0;left:0;width:80px;height:100%;background:linear-gradient(to right,var(--black),transparent);z-index:2;pointer-events:none;"></div>
+    <div style="position:absolute;top:0;right:0;width:80px;height:100%;background:linear-gradient(to left,var(--black),transparent);z-index:2;pointer-events:none;"></div>
+    <div style="display:flex;gap:1.25rem;width:max-content;animation:videoScroll 18s linear infinite;" onmouseenter="this.style.animationPlayState='paused'" onmouseleave="this.style.animationPlayState='running'">
+      <a href="https://drive.google.com/file/d/16R8TjT9R10LPyy9CplghelBqlII377FN/view" target="_blank" style="width:220px;flex-shrink:0;text-decoration:none;display:block;">
+        <div style="aspect-ratio:9/16;border-radius:12px;background:linear-gradient(135deg,rgba(155,127,255,0.12),rgba(126,207,255,0.08));border:1px solid rgba(155,127,255,0.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.6rem;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="rgba(155,127,255,0.6)"><path d="M8 5v14l11-7z"/></svg>
+          <span style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(155,127,255,0.5);">Watch</span>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">TTDeye Contacts Ad</p>
+      </a>
+      <a href="https://drive.google.com/file/d/1qz6SxSFXuLt64dC8KBqpk3NozslhQzqE/view" target="_blank" style="width:220px;flex-shrink:0;text-decoration:none;display:block;">
+        <div style="aspect-ratio:9/16;border-radius:12px;background:linear-gradient(135deg,rgba(255,126,179,0.1),rgba(155,127,255,0.08));border:1px solid rgba(255,126,179,0.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.6rem;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="rgba(255,126,179,0.6)"><path d="M8 5v14l11-7z"/></svg>
+          <span style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,126,179,0.5);">Watch</span>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Verified Skin Ad</p>
+      </a>      <div style="width:220px;flex-shrink:0;">
+        <div style="position:relative;aspect-ratio:9/16;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/2ebI12ghkZs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">TeamWater — MrBeast x Mark Rober</p>
+      </div>
+      <!-- duplicate for loop -->
+      <a href="https://drive.google.com/file/d/16R8TjT9R10LPyy9CplghelBqlII377FN/view" target="_blank" style="width:220px;flex-shrink:0;text-decoration:none;display:block;">
+        <div style="aspect-ratio:9/16;border-radius:12px;background:linear-gradient(135deg,rgba(155,127,255,0.12),rgba(126,207,255,0.08));border:1px solid rgba(155,127,255,0.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.6rem;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="rgba(155,127,255,0.6)"><path d="M8 5v14l11-7z"/></svg>
+          <span style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(155,127,255,0.5);">Watch</span>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">TTDeye Contacts Ad</p>
+      </a>
+      <a href="https://drive.google.com/file/d/1qz6SxSFXuLt64dC8KBqpk3NozslhQzqE/view" target="_blank" style="width:220px;flex-shrink:0;text-decoration:none;display:block;">
+        <div style="aspect-ratio:9/16;border-radius:12px;background:linear-gradient(135deg,rgba(255,126,179,0.1),rgba(155,127,255,0.08));border:1px solid rgba(255,126,179,0.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.6rem;">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="rgba(255,126,179,0.6)"><path d="M8 5v14l11-7z"/></svg>
+          <span style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,126,179,0.5);">Watch</span>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">Verified Skin Ad</p>
+      </a>      <div style="width:220px;flex-shrink:0;">
+        <div style="position:relative;aspect-ratio:9/16;border-radius:12px;overflow:hidden;background:#000;">
+          <iframe style="position:absolute;top:0;left:0;width:100%;height:100%;" src="https://www.youtube.com/embed/2ebI12ghkZs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p style="font-family:'DM Serif Display',serif;font-size:0.9rem;margin-top:0.6rem;color:var(--white);">TeamWater — MrBeast x Mark Rober</p>
+      </div>
+    </div>
+  </div>
+
   <div class="work-grid">
-
-    <div class="work-card featured">
-      <div class="featured-info">
-        <p class="work-card-tag">YouTube · FILS 2.0</p>
-        <h2 class="work-card-title">"100 Girls on a Date"</h2>
-        <p class="work-card-desc">Social experiment format. Written, filmed, edited, and performed solo.</p>
-      </div>
-      <div class="video-wrapper">
-        <iframe src="https://www.youtube.com/embed/YZBYj4OJJm0" title="100 Girls on a Date" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-    </div>
-
-    <div class="work-card" style="display:flex;flex-direction:column;">
-      <p class="work-card-tag">UGC · Brand Deal</p>
-      <h3 class="work-card-title">Wuthering Waves Gaming Campaign</h3>
-      <p class="work-card-desc">Performance-focused UGC for a major gaming title. Flat-rate brand deal, full production end-to-end.</p>
-      <div class="ugc-placeholder"><span>Video coming soon</span></div>
-    </div>
-
-    <div class="work-card">
-      <p class="work-card-tag">Performance Art · NYC</p>
-      <h3 class="work-card-title">The Human Canvas Experiment</h3>
-      <p class="work-card-desc">Live social experiment where strangers paint directly on skin in Washington Square Park. Documented for short-form content.</p>
-    </div>
-
     <a href="https://youtube.com/filsdfrank" target="_blank" class="work-card">
       <p class="work-card-tag">Animation · YouTube</p>
-      <h3 class="work-card-title">Fils D. Frank Universe</h3>
-      <p class="work-card-desc">Original animated IP with 18.9K subscribers. Ongoing storytelling universe with original characters, lore, and music.</p>
+      <h3 class="work-card-title">Fils D. Frank — Original Series</h3>
+      <p class="work-card-desc">Original animated series with 20K subscribers. Ongoing storytelling universe with original characters, lore, and music.</p>
       <span class="work-card-arrow">Visit channel →</span>
     </a>
-
-  </div>
-</section>
-
-<!-- About -->
-<section id="about">
-  <p class="section-label">✦ About</p>
-  <div class="about-inner">
-    <div class="about-left">
-      <h2 class="about-headline">Content that makes people stop, watch, and <em>act.</em></h2>
-    </div>
-    <div class="about-body">
-      <p>I'm Fils — a Brooklyn-based creator, filmmaker, and performer studying Interactive Media Arts at NYU Tisch School of the Arts (B.F.A., graduating December 2026).</p>
-      <p>I build content across formats: UGC brand deals, YouTube storytelling, short-form social, and performance art. My background spans on-camera performance, Adobe Suite editing, and a real understanding of what makes content convert.</p>
-      <p>I've worked with gaming brands, negotiated my own deals, grown audiences organically from zero, and cracked the YouTube algorithm.</p>
-      <div class="tags">
-        <span class="tag">Premiere Pro</span>
-        <span class="tag">After Effects</span>
-        <span class="tag">On-Camera</span>
-        <span class="tag">UGC</span>
-        <span class="tag">Short-Form</span>
-        <span class="tag">Storytelling</span>
-        <span class="tag">DTC</span>
-        <span class="tag">Performance Creative</span>
-        <span class="tag">NYU Tisch</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Socials / Reach -->
-<section id="platforms">
-  <p class="section-label">✦ Find Me</p>
-  <div class="socials-grid">
-
-    <a href="https://instagram.com/filsdfrank" target="_blank" class="social-card" style="--card-color:#e1306c; --icon-bg:rgba(225,48,108,0.1);">
-      <div class="social-card-top">
-        <div class="social-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        </div>
-        <span class="social-arrow">→</span>
-      </div>
-      <div>
-        <span class="social-count">109K</span>
-        <span class="social-label">Followers</span>
-      </div>
-      <span class="social-handle">@filsdfrank on Instagram</span>
-    </a>
-
-    <a href="https://tiktok.com/@filsdfrank" target="_blank" class="social-card" style="--card-color:#69c9d0; --icon-bg:rgba(105,201,208,0.1);">
-      <div class="social-card-top">
-        <div class="social-icon">
-          <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
-        </div>
-        <span class="social-arrow">→</span>
-      </div>
-      <div>
-        <span class="social-count">51K</span>
-        <span class="social-label">Followers</span>
-      </div>
-      <span class="social-handle">@filsdfrank on TikTok</span>
-    </a>
-
-    <a href="https://youtube.com/@filsdfrank" target="_blank" class="social-card" style="--card-color:#ff0000; --icon-bg:rgba(255,0,0,0.08);">
-      <div class="social-card-top">
-        <div class="social-icon">
-          <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </div>
-        <span class="social-arrow">→</span>
-      </div>
-      <div>
-        <span class="social-count">2</span>
-        <span class="social-label">Monetized Channels</span>
-      </div>
-      <span class="social-handle">@filsdfrank on YouTube</span>
-    </a>
-
   </div>
 </section>
 
@@ -832,6 +875,7 @@
     el.addEventListener('mouseenter', () => { ring.style.width = '56px'; ring.style.height = '56px'; ring.style.borderColor = 'rgba(155,127,255,0.6)'; });
     el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.borderColor = 'rgba(155,127,255,0.4)'; });
   });
+
 </script>
 </body>
 </html>
