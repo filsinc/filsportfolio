@@ -6,232 +6,176 @@
 <title>FILS — Contact</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root { --black: #0a0a0a; --white: #f5f2ec; --cream: #f0ead8; --accent: #c8a96e; --accent-dim: #8a6f3f; --mid: #888; }
+  :root {
+    --black: #080810;
+    --surface: #0f0f1a;
+    --white: #f0eeff;
+    --muted: rgba(240,238,255,0.5);
+    --accent: #9b7fff;
+    --accent2: #ff7eb3;
+    --border: rgba(255,255,255,0.07);
+    --mid: #666680;
+  }
   html { scroll-behavior: smooth; }
   body { background: var(--black); color: var(--white); font-family: 'Manrope', sans-serif; font-weight: 300; cursor: none; overflow-x: hidden; min-height: 100vh; display: flex; flex-direction: column; }
-  .cursor { width: 12px; height: 12px; background: var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; mix-blend-mode: difference; }
-  .cursor-ring { width: 40px; height: 40px; border: 1px solid rgba(200,169,110,0.5); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transition: transform 0.08s ease, width 0.3s, height 0.3s, border-color 0.3s; }
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 3rem; mix-blend-mode: difference; }
-  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 0.15em; color: var(--white); text-decoration: none; }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a { font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--white); text-decoration: none; opacity: 0.6; transition: opacity 0.2s; }
-  .nav-links a:hover, .nav-links a.active { opacity: 1; }
-  footer { border-top: 1px solid rgba(255,255,255,0.08); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; margin-top: auto; }
-  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.15em; color: rgba(255,255,255,0.2); }
-  .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; color: rgba(255,255,255,0.2); }
 
-  /* Main layout */
+  .cursor { width: 10px; height: 10px; background: var(--accent); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999; mix-blend-mode: screen; }
+  .cursor-ring { width: 36px; height: 36px; border: 1px solid rgba(155,127,255,0.4); border-radius: 50%; position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998; transition: width 0.3s, height 0.3s, border-color 0.3s; }
+
+  /* Nav — matches homepage pill */
+  nav {
+    position: fixed; top: 1.5rem; left: 50%; transform: translateX(-50%);
+    z-index: 100;
+    display: flex; align-items: center; gap: 2rem;
+    padding: 0.75rem 1.5rem;
+    background: rgba(15,15,26,0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    width: max-content;
+  }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.2em; text-decoration: none; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .nav-divider { width: 1px; height: 16px; background: var(--border); }
+  .nav-links { display: flex; gap: 0.25rem; list-style: none; }
+  .nav-links a { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 0.4rem 0.9rem; border-radius: 100px; transition: color 0.2s, background 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--white); background: rgba(255,255,255,0.06); }
+  .nav-social { display: flex; gap: 0.75rem; align-items: center; }
+  .nav-social a { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: var(--muted); transition: color 0.2s, background 0.2s; text-decoration: none; }
+  .nav-social a:hover { color: var(--white); background: rgba(255,255,255,0.08); }
+  .nav-social svg { width: 15px; height: 15px; fill: currentColor; }
+
+  /* Main split layout */
   main {
     flex: 1;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    min-height: calc(100vh - 80px);
-    margin-top: 80px;
+    min-height: 100vh;
+    padding-top: 6rem;
   }
 
-  /* Left panel */
+  /* Left */
   .contact-left {
     padding: 6rem 4rem 6rem 3rem;
-    border-right: 1px solid rgba(255,255,255,0.06);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; justify-content: space-between;
+    position: relative; overflow: hidden;
   }
-  .contact-eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 2rem;
+  .left-glow {
+    position: absolute; top: 20%; left: -100px;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(155,127,255,0.07) 0%, transparent 70%);
+    pointer-events: none;
   }
+  .contact-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid rgba(155,127,255,0.3);
+    padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 2rem;
+    background: rgba(155,127,255,0.06); width: fit-content;
+  }
+  .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; animation: blink 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
   .contact-headline {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(4rem, 8vw, 8rem);
-    line-height: 0.92;
-    letter-spacing: -0.01em;
+    line-height: 0.9;
+    background: linear-gradient(135deg, #fff 40%, rgba(255,255,255,0.5));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     margin-bottom: 1.5rem;
   }
   .contact-sub {
     font-family: 'DM Serif Display', serif;
     font-style: italic;
-    font-size: 1.1rem;
-    color: rgba(245,242,236,0.5);
-    line-height: 1.6;
-    max-width: 380px;
-    margin-bottom: 4rem;
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 360px;
+    margin-bottom: 3rem;
   }
-  .availability {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--mid);
-  }
-  .availability-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: #4ade80;
-    animation: pulse 2s infinite;
-    flex-shrink: 0;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-  .direct-links {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
+
+  /* Direct links */
+  .direct-links { display: flex; flex-direction: column; }
   .direct-link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.25rem 0;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    text-decoration: none;
-    color: inherit;
-    transition: padding-left 0.2s;
-    group: true;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none; color: inherit;
+    margin-bottom: 0.5rem;
+    background: var(--surface);
+    transition: border-color 0.2s, background 0.2s, transform 0.2s;
   }
-  .direct-link:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
-  .direct-link:hover { padding-left: 0.5rem; }
-  .direct-link-left {}
-  .direct-link-type {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.6rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--mid);
-    margin-bottom: 0.25rem;
-  }
-  .direct-link-value {
-    font-size: 0.9rem;
-    color: var(--white);
-  }
-  .direct-link-arrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--accent);
-    opacity: 0;
-    transition: opacity 0.2s;
-  }
+  .direct-link:hover { border-color: rgba(155,127,255,0.3); background: rgba(155,127,255,0.05); transform: translateX(4px); }
+  .direct-link-left { display: flex; align-items: center; gap: 0.75rem; }
+  .direct-link-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; background: rgba(155,127,255,0.08); flex-shrink: 0; }
+  .direct-link-icon svg { width: 15px; height: 15px; fill: var(--accent); }
+  .direct-link-icon.ig { background: rgba(225,48,108,0.08); }
+  .direct-link-icon.ig svg { fill: #e1306c; }
+  .direct-link-icon.tt { background: rgba(105,201,208,0.08); }
+  .direct-link-icon.tt svg { fill: #69c9d0; }
+  .direct-link-icon.yt { background: rgba(255,0,0,0.06); }
+  .direct-link-icon.yt svg { fill: #ff0000; }
+  .direct-link-type { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); display: block; }
+  .direct-link-value { font-size: 0.85rem; color: var(--white); display: block; margin-top: 0.1rem; }
+  .direct-link-arrow { font-size: 0.8rem; color: var(--accent); opacity: 0; transition: opacity 0.2s; }
   .direct-link:hover .direct-link-arrow { opacity: 1; }
 
-  /* Right panel — form */
+  /* Right — form */
   .contact-right {
     padding: 6rem 3rem 6rem 4rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    display: flex; flex-direction: column; justify-content: center;
   }
-  .form-label-top {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 2.5rem;
+  .form-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); background: rgba(155,127,255,0.08); border: 1px solid rgba(155,127,255,0.2);
+    padding: 0.35rem 0.9rem; border-radius: 100px; margin-bottom: 2.5rem; width: fit-content;
   }
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
-  .form-field-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--mid);
-    display: block;
-    margin-bottom: 0.6rem;
-  }
+  .form-group { margin-bottom: 1.5rem; }
+  .form-field-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mid); display: block; margin-bottom: 0.5rem; }
   .form-input, .form-textarea, .form-select {
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid rgba(255,255,255,0.12);
-    color: var(--white);
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 300;
-    padding: 0.6rem 0;
-    outline: none;
-    transition: border-color 0.2s;
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; color: var(--white);
+    font-family: 'Manrope', sans-serif; font-size: 0.9rem; font-weight: 300;
+    padding: 0.75rem 1rem; outline: none; transition: border-color 0.2s;
     -webkit-appearance: none;
   }
-  .form-select {
-    background: transparent;
-    cursor: pointer;
-    color: rgba(245,242,236,0.5);
-  }
-  .form-select option { background: #1a1a1a; color: var(--white); }
-  .form-input:focus, .form-textarea:focus, .form-select:focus {
-    border-bottom-color: var(--accent);
-  }
-  .form-input::placeholder, .form-textarea::placeholder {
-    color: rgba(245,242,236,0.2);
-    font-weight: 300;
-  }
-  .form-textarea {
-    resize: none;
-    height: 100px;
-    line-height: 1.7;
-  }
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-  .form-submit {
-    margin-top: 2.5rem;
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-  }
+  .form-select { cursor: none; color: var(--muted); }
+  .form-select option { background: #0f0f1a; color: var(--white); }
+  .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: rgba(155,127,255,0.4); }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(240,238,255,0.2); }
+  .form-textarea { resize: none; height: 110px; line-height: 1.7; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-submit { margin-top: 2rem; display: flex; align-items: center; gap: 1.5rem; }
   .submit-btn {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--black);
-    background: var(--accent);
-    border: none;
-    padding: 1rem 2.5rem;
-    cursor: none;
-    transition: background 0.2s;
+    font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--black); background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none; padding: 0.9rem 2rem; border-radius: 100px; cursor: none;
+    transition: opacity 0.2s, transform 0.2s; font-weight: 600;
   }
-  .submit-btn:hover { background: var(--cream); }
-  .submit-note {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem;
-    letter-spacing: 0.08em;
-    color: rgba(245,242,236,0.25);
-    line-height: 1.6;
-  }
-  .success-msg {
-    display: none;
-    font-family: 'DM Serif Display', serif;
-    font-style: italic;
-    font-size: 1.1rem;
-    color: var(--accent);
-    padding: 1rem 0;
-  }
+  .submit-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+  .submit-note { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: rgba(240,238,255,0.2); line-height: 1.6; }
+  .success-msg { display: none; font-family: 'DM Serif Display', serif; font-style: italic; font-size: 1.1rem; color: var(--accent); padding: 1rem 0; }
+
+  footer { border-top: 1px solid var(--border); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.15em; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .footer-copy { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; color: var(--mid); }
 
   @media (max-width: 768px) {
-    nav { padding: 1.2rem 1.5rem; }
+    nav { padding: 0.6rem 1rem; gap: 1rem; }
     .nav-links { display: none; }
-    main { grid-template-columns: 1fr; min-height: auto; }
-    .contact-left { padding: 5rem 1.5rem 3rem; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-social { display: none; }
+    main { grid-template-columns: 1fr; padding-top: 5rem; }
+    .contact-left { padding: 3rem 1.5rem; border-right: none; border-bottom: 1px solid var(--border); }
     .contact-right { padding: 3rem 1.5rem 4rem; }
-    .form-row { grid-template-columns: 1fr; gap: 0; }
-    footer { flex-direction: column; gap: 1rem; padding: 2rem 1.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 2rem 1.5rem; }
   }
 </style>
 </head>
@@ -242,54 +186,82 @@
 
 <nav>
   <a href="index.html" class="nav-logo">FILS</a>
+  <div class="nav-divider"></div>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="work.html">Work</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="reach.html">Reach</a></li>
     <li><a href="contact.html" class="active">Contact</a></li>
   </ul>
+  <div class="nav-divider"></div>
+  <div class="nav-social">
+    <a href="https://instagram.com/filsdfrank" target="_blank" title="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+    </a>
+    <a href="https://tiktok.com/@filsdfrank" target="_blank" title="TikTok">
+      <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+    </a>
+    <a href="https://youtube.com/@filsdfrank" target="_blank" title="YouTube">
+      <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+    </a>
+  </div>
 </nav>
 
 <main>
-  <!-- Left: info -->
+  <!-- Left -->
   <div class="contact-left">
+    <div class="left-glow"></div>
     <div>
-      <p class="contact-eyebrow">Get In Touch</p>
-      <h1 class="contact-headline">Let's<br>Work<br>Together</h1>
-      <p class="contact-sub">Available for brand partnerships, UGC campaigns, content strategy, and full-time roles. Based in Brooklyn — open to remote.</p>
-      <div class="availability">
-        <span class="availability-dot"></span>
+      <div class="contact-badge">
+        <span class="badge-dot"></span>
         Available for new projects
       </div>
+      <h1 class="contact-headline">Let's<br>Work<br>Together</h1>
+      <p class="contact-sub">Available for brand partnerships, UGC campaigns, content strategy, and full-time roles. Based in Brooklyn — open to remote.</p>
     </div>
-
     <div class="direct-links">
       <a href="mailto:filsinc.co@gmail.com" class="direct-link">
         <div class="direct-link-left">
-          <p class="direct-link-type">Email</p>
-          <p class="direct-link-value">filsinc.co@gmail.com</p>
+          <div class="direct-link-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </div>
+          <div>
+            <span class="direct-link-type">Email</span>
+            <span class="direct-link-value">filsinc.co@gmail.com</span>
+          </div>
         </div>
         <span class="direct-link-arrow">→</span>
       </a>
-      <a href="https://instagram.com/filsdfrank" class="direct-link" target="_blank">
+      <a href="https://instagram.com/filsdfrank" target="_blank" class="direct-link">
         <div class="direct-link-left">
-          <p class="direct-link-type">Instagram</p>
-          <p class="direct-link-value">@filsdfrank</p>
+          <div class="direct-link-icon ig">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </div>
+          <div>
+            <span class="direct-link-type">Instagram</span>
+            <span class="direct-link-value">@filsdfrank</span>
+          </div>
         </div>
         <span class="direct-link-arrow">→</span>
       </a>
-      <a href="https://tiktok.com/@filsdfrank" class="direct-link" target="_blank">
+      <a href="https://tiktok.com/@filsdfrank" target="_blank" class="direct-link">
         <div class="direct-link-left">
-          <p class="direct-link-type">TikTok</p>
-          <p class="direct-link-value">@filsdfrank</p>
+          <div class="direct-link-icon tt">
+            <svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.18 8.18 0 004.78 1.52V6.76a4.85 4.85 0 01-1.01-.07z"/></svg>
+          </div>
+          <div>
+            <span class="direct-link-type">TikTok</span>
+            <span class="direct-link-value">@filsdfrank</span>
+          </div>
         </div>
         <span class="direct-link-arrow">→</span>
       </a>
-      <a href="https://youtube.com/@filsdfrank" class="direct-link" target="_blank">
+      <a href="https://youtube.com/@filsdfrank" target="_blank" class="direct-link">
         <div class="direct-link-left">
-          <p class="direct-link-type">YouTube</p>
-          <p class="direct-link-value">FILS 2.0</p>
+          <div class="direct-link-icon yt">
+            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </div>
+          <div>
+            <span class="direct-link-type">YouTube</span>
+            <span class="direct-link-value">@filsdfrank</span>
+          </div>
         </div>
         <span class="direct-link-arrow">→</span>
       </a>
@@ -298,8 +270,8 @@
 
   <!-- Right: form -->
   <div class="contact-right">
-    <p class="form-label-top">Send a Message</p>
-    <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <p class="form-eyebrow">✦ Send a Message</p>
+    <form id="contactForm" action="https://formspree.io/f/mqeolavp" method="POST">
       <div class="form-row">
         <div class="form-group">
           <label class="form-field-label" for="name">Your Name</label>
@@ -328,11 +300,11 @@
       </div>
       <div class="form-group">
         <label class="form-field-label" for="message">Message</label>
-        <textarea class="form-textarea" id="message" name="message" placeholder="Tell me about the project, timeline, and budget if applicable..." required></textarea>
+        <textarea class="form-textarea" id="message" name="message" placeholder="Tell me about the project, timeline, and budget..." required></textarea>
       </div>
       <div class="form-submit">
         <button type="submit" class="submit-btn">Send Message →</button>
-        <p class="submit-note">I typically respond<br>within 24–48 hours.</p>
+        <p class="submit-note">Typically responds<br>within 24–48 hours.</p>
       </div>
       <p class="success-msg" id="successMsg">Got it — I'll be in touch soon. ✦</p>
     </form>
@@ -350,20 +322,19 @@
   let mx = 0, my = 0, rx = 0, ry = 0;
   document.addEventListener('mousemove', e => {
     mx = e.clientX; my = e.clientY;
-    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
+    cursor.style.transform = `translate(${mx - 5}px, ${my - 5}px)`;
   });
   function animateRing() {
-    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-    ring.style.transform = `translate(${rx - 20}px, ${ry - 20}px)`;
+    rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1;
+    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
     requestAnimationFrame(animateRing);
   }
   animateRing();
   document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => { ring.style.width = '60px'; ring.style.height = '60px'; ring.style.borderColor = 'rgba(200,169,110,0.8)'; });
-    el.addEventListener('mouseleave', () => { ring.style.width = '40px'; ring.style.height = '40px'; ring.style.borderColor = 'rgba(200,169,110,0.5)'; });
+    el.addEventListener('mouseenter', () => { ring.style.width = '56px'; ring.style.height = '56px'; ring.style.borderColor = 'rgba(155,127,255,0.6)'; });
+    el.addEventListener('mouseleave', () => { ring.style.width = '36px'; ring.style.height = '36px'; ring.style.borderColor = 'rgba(155,127,255,0.4)'; });
   });
 
-  // Form handling via Formspree
   const form = document.getElementById('contactForm');
   form.addEventListener('submit', async e => {
     e.preventDefault();
