@@ -55,7 +55,7 @@
     font-family: 'Anton', sans-serif;
     font-size: 1.2rem;
     letter-spacing: 0.05em;
-    color: var(--accent);
+    color: var(--white);
     text-decoration: none;
   }
   .nav-divider { width: 1px; height: 16px; background: var(--border); }
@@ -150,10 +150,17 @@
     opacity: 1;
     transform: translateY(0) scale(1);
   }
+  [data-reveal="pop"] {
+    transform: translateY(18px) scale(0.75);
+    transition: opacity 0.6s cubic-bezier(.34,1.56,.64,1), transform 0.6s cubic-bezier(.34,1.56,.64,1);
+  }
+  [data-reveal="pop"].is-visible {
+    transform: translateY(0) scale(1);
+  }
 
   .hero-title {
     font-family: 'Anton', sans-serif;
-    font-size: clamp(5rem, 16vw, 14rem);
+    font-size: clamp(4rem, 12vw, 10rem);
     line-height: 0.88;
     letter-spacing: -0.01em;
     margin-bottom: 0.5rem;
@@ -249,15 +256,26 @@
 
   /* Marquee */
   .marquee-wrap {
+    position: relative;
     overflow: hidden;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     padding: 0.9rem 0;
     background: var(--surface);
   }
+  .marquee-wrap::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 30%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), rgba(155,127,255,0.22), transparent);
+    transform: translateX(-120%);
+    animation: glimmer 4s ease-in-out infinite;
+    pointer-events: none;
+  }
   .marquee-track {
     display: flex; gap: 2.5rem;
-    animation: marquee 22s linear infinite;
+    animation: marquee 13s linear infinite;
     white-space: nowrap;
   }
   .marquee-item {
@@ -268,19 +286,19 @@
   }
   .marquee-item.accent { color: var(--mid); }
   @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  @keyframes glimmer { from{transform:translateX(-120%);} to{transform:translateX(420%);} }
   @keyframes videoScroll { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
   /* Sections */
   section { padding: 6rem 3rem; }
   .section-label {
-    font-family: Arial, sans-serif;
+    font-family: Impact, 'Arial Narrow', sans-serif;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 400;
     font-size: 1.5rem;
-    background: linear-gradient(135deg, #9b8cff 0%, #ff7ab3 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--white);
     margin-bottom: 2.5rem;
     padding-bottom: 0.9rem;
     border-bottom: 1px solid var(--border);
@@ -537,9 +555,7 @@
     font-family: 'Anton', sans-serif;
     font-size: 1.1rem;
     letter-spacing: 0.15em;
-    background: var(--accent);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--white);
   }
   .footer-copy {
     font-family: 'Inter', sans-serif;
@@ -606,14 +622,14 @@
     <span class="line1">FILS</span>
   </h1>
 
-  <p class="hero-desc">Hi, I'm Fils! I make authentic and creative content across platforms for UGC, brand deals, as well as original videos/storytelling.</p>
+  <p class="hero-desc" data-reveal="pop">Hi, I'm Fils! I make authentic and creative content across platforms for UGC, brand deals, as well as original videos/storytelling.</p>
 
-  <div class="hero-ctas">
+  <div class="hero-ctas" data-reveal="pop">
     <a href="https://profile.google.com/@sarah.fils" target="_blank" class="btn-primary">View My Work</a>
     <a href="#contact" class="btn-ghost">Get In Touch</a>
   </div>
 
-  <div class="hero-stats">
+  <div class="hero-stats" data-reveal>
     <div class="hero-stat" style="display:flex;flex-direction:column;align-items:center;gap:0.75rem;">
       <div style="display:flex;gap:0.75rem;align-items:center;">
         <a href="https://instagram.com/filsdfrank" target="_blank" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(225,48,108,0.1);transition:background 0.2s;">
@@ -626,7 +642,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="#ff0000"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
         </a>
       </div>
-      <span class="hero-stat-num">350K+</span>
+      <span class="hero-stat-num" id="followerCount" data-target="350">0K+</span>
       <span class="hero-stat-label">Followers Across All Platforms</span>
     </div>
   </div>
@@ -901,7 +917,7 @@
   </div>
 </section>
 
-<footer>
+<footer data-reveal>
   <span class="footer-logo">FILS</span>
   <span class="footer-copy">© 2026 FILS INC — ALL RIGHTS RESERVED</span>
 </footer>
@@ -917,6 +933,37 @@
     });
   }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
   revealEls.forEach(el => revealObserver.observe(el));
+
+  const countEl = document.getElementById('followerCount');
+  if (countEl) {
+    const target = parseInt(countEl.dataset.target, 10);
+    const duration = 1600;
+    let started = false;
+    const runCount = () => {
+      if (started) return;
+      started = true;
+      const startTime = performance.now();
+      const easeOutExpo = t => t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+      function tick(now) {
+        const elapsed = Math.min((now - startTime) / duration, 1);
+        const eased = easeOutExpo(elapsed);
+        const value = Math.round(target * eased);
+        countEl.textContent = value + 'K+';
+        if (elapsed < 1) requestAnimationFrame(tick);
+        else countEl.textContent = target + 'K+';
+      }
+      requestAnimationFrame(tick);
+    };
+    const countObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          runCount();
+          countObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    countObserver.observe(countEl);
+  }
 </script>
 
 </body>
