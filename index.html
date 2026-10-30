@@ -293,7 +293,7 @@
   .round-media div[style*="aspect-ratio"] { border-radius: 14px !important; }
 
   /* Ambient light that flows like water: each orb drifts on x, y and shape independently */
-  .aurora { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; mix-blend-mode: screen; }
+  .aurora { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; mix-blend-mode: screen; opacity: .5; }
   .orb { position: absolute; width: var(--w); height: var(--h); left: var(--l); top: var(--t);
          margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2);
          animation: sx var(--dx) ease-in-out infinite alternate; will-change: transform; }
@@ -320,8 +320,8 @@
   .crest { position: absolute; top: -20%; left: 0; width: 38vw; height: 140%;
            background: linear-gradient(90deg, transparent 0%, rgba(var(--c), var(--a)) 50%, transparent 100%);
            transform: translateX(-60vw) skewX(-22deg); animation: crestSweep var(--d) cubic-bezier(.4,.1,.6,.9) infinite; will-change: transform; }
-  .c1 { --c: 200,180,255; --a: .13; --d: 16s; }
-  .c2 { --c: 255,170,205; --a: .10; --d: 22s; animation-delay: -9s; }
+  .c1 { --c: 200,180,255; --a: .07; --d: 16s; }
+  .c2 { --c: 255,170,205; --a: .05; --d: 22s; animation-delay: -9s; }
   @keyframes crestSweep { from { transform: translateX(-60vw) skewX(-22deg); } to { transform: translateX(130vw) skewX(-22deg); } }
   @keyframes sx { from { transform: translateX(calc(var(--ax) * -1)); } to { transform: translateX(var(--ax)); } }
   @keyframes sy { from { transform: translateY(calc(var(--ay) * -1)); } to { transform: translateY(var(--ay)); } }
@@ -363,7 +363,7 @@
   .btn-ghost { background: rgba(155,127,255,0.14); border-color: rgba(190,160,255,0.4); animation-delay: -1.9s; }
   @keyframes btnGlow {
     from { box-shadow: 0 0 16px rgba(155,127,255,0.22); }
-    to   { box-shadow: 0 0 36px rgba(155,127,255,0.52), 0 0 14px rgba(255,122,179,0.28); }
+    to   { box-shadow: 0 0 26px rgba(155,127,255,0.34), 0 0 10px rgba(255,122,179,0.16); }
   }
   .btn-primary:hover, .btn-ghost:hover { animation: none; box-shadow: 0 10px 34px rgba(155,127,255,0.5), 0 0 18px rgba(255,122,179,0.3); }
   @media (prefers-reduced-motion: reduce) { .btn-primary, .btn-ghost { animation: none; } }
@@ -383,6 +383,14 @@
     3% { transform: rotate(30deg) scale(1.2); } 7% { transform: rotate(-20deg) scale(1.2); } 11% { transform: rotate(26deg) scale(1.15); }
   }
   @media (prefers-reduced-motion: reduce) { .wave-hand { animation: none; } }
+
+  /* Touch devices: no sticky tap flash, calmer + lighter background, comfortable tap targets */
+  a, button, .btn-primary, .btn-ghost { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  @media (hover: none), (max-width: 700px) {
+    .aurora { opacity: .4; }
+    .crest { display: none; }
+    .hero-stat-icon a, .social-card, .btn-primary, .btn-ghost { min-height: 44px; }
+  }
 
   /* Hover liveliness: things float, lean and spring when touched */
   .round-media { padding: 12px 0; }
